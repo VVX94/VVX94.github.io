@@ -4,6 +4,60 @@
   
   
   <entry>
+    <title>hexo</title>
+    <link href="/posts/undefined.html"/>
+    <url>/posts/undefined.html</url>
+    
+    <content type="html"><![CDATA[<h4 id="hexo-d提示无法连接到github-援引自CSDN和StackOverFlow"><a href="#hexo-d提示无法连接到github-援引自CSDN和StackOverFlow" class="headerlink" title="hexo d提示无法连接到github(援引自CSDN和StackOverFlow)"></a>hexo d提示无法连接到github(援引自<a href="https://blog.csdn.net/weixin_41287260/article/details/124368189">CSDN</a>和<a href="https://stackoverflow.com/questions/15589682/how-to-fix-ssh-connect-to-host-github-com-port-22-connection-timed-out-for-g">StackOverFlow</a>)</h4><p>1.在git bash进入~&#x2F;.ssh下</p><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token builtin class-name">cd</span> ~/.ssh</code></pre><p>2.创建一个config文件(这里我用的vim编辑器)</p><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token function">vim</span> config</code></pre><p>3.编辑文件内容：</p><pre class="language-bash" data-language="bash"><code class="language-bash">Host github.comUser <span class="token function">git</span>Hostname ssh.github.comPreferredAuthentications publickeyIdentityFile ~/.ssh/id_rsaPort <span class="token number">443</span>Host gitlab.comHostname altssh.gitlab.comUser <span class="token function">git</span>Port <span class="token number">443</span>PreferredAuthentications publickeyIdentityFile ~/.ssh/id_rsa</code></pre><p>4.保存退出</p><p>5.检查是否成功</p><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token function">ssh</span> <span class="token parameter variable">-T</span> git@github.com</code></pre><p>这里要根据它的提示操作，有个地方要输入yes</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>debug</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>hexo</tag>
+      
+      <tag>debug</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>hexo</title>
+    <link href="/posts/undefined.html"/>
+    <url>/posts/undefined.html</url>
+    
+    <content type="html"><![CDATA[<h2 id="最简洁的常用流程"><a href="#最简洁的常用流程" class="headerlink" title="最简洁的常用流程"></a>最简洁的常用流程</h2><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 先把markdown文件放到post文件夹中</span><span class="token comment"># 清除之前生成的静态文件</span>hexo clean<span class="token comment"># 生成静态文件，hexo generate 的简写</span>hexo g<span class="token comment"># 本地启动，hexo server 的简写,用于查看效果，可以跳过</span>hexo s<span class="token comment"># 部署到 Git 仓库，hexo deploy 的简写</span>hexo d</code></pre><h2 id="init"><a href="#init" class="headerlink" title="init"></a>init</h2><pre class="language-bash" data-language="bash"><code class="language-bash">$ hexo init <span class="token punctuation">[</span>folder<span class="token punctuation">]</span></code></pre><p>新建一个网站。 如果没有设置 <code>folder</code> ，Hexo 默认在目前的文件夹建立网站。</p><p>本命令相当于执行了以下几步：</p><ol><li>Git clone <a href="https://github.com/hexojs/hexo-starter">hexo-starter</a> 和 <a href="https://github.com/hexojs/hexo-theme-landscape">hexo-theme-landscape</a> 主题到当前目录或指定目录。</li><li>使用 <a href="https://classic.yarnpkg.com/lang/en/">Yarn 1</a>、<a href="https://pnpm.io/zh/">pnpm</a> 或 <a href="https://docs.npmjs.com/cli/install">npm</a> 包管理器下载依赖（如有已安装多个，则列在前面的优先）。 npm 默认随 <a href="https://hexo.io/zh-cn/docs/index.html#%E5%AE%89%E8%A3%85-Node-js">Node.js</a> 安装。</li></ol><h2 id="new"><a href="#new" class="headerlink" title="new"></a>new</h2><pre class="language-bash" data-language="bash"><code class="language-bash">$ hexo new <span class="token punctuation">[</span>layout<span class="token punctuation">]</span> <span class="token operator">&lt;</span>title<span class="token operator">></span></code></pre><p>新建一篇文章。 如果没有设置 <code>layout</code> 的话，默认使用 <a href="https://hexo.io/zh-cn/docs/configuration">_config.yml</a> 中的 <code>default_layout</code> 参数代替。 使用布局 <code>draft</code> 来创建草稿。 如果标题包含空格的话，请使用引号括起来。</p><table><thead><tr><th>选项</th><th>描述</th></tr></thead><tbody><tr><td><code>-p</code>, <code>--path</code></td><td>文章的路径。 自定义文章的路径。</td></tr><tr><td><code>-r</code>, <code>--replace</code></td><td>如果存在的话，替换当前的文章。</td></tr><tr><td><code>-s</code>, <code>--slug</code></td><td>文章别名。 自定义文章的 URL。</td></tr></tbody></table><p>默认情况下，Hexo 会使用文章的标题来决定文章文件的路径。 对于独立页面来说，Hexo 会创建一个以标题为名字的目录，并在目录中放置一个 <code>index.md</code> 文件。 你可以使用 <code>--path</code> 参数来覆盖上述行为、自行决定文件的目录：</p><pre class="language-bash" data-language="bash"><code class="language-bash">hexo new page <span class="token parameter variable">--path</span> about/me <span class="token string">"About me"</span></code></pre><p>以上命令会创建一个 <code>source/about/me.md</code> 文件，同时 Front Matter 中的 title 为 <code>&quot;About me&quot;</code></p><p>注意！ title 是必须指定的！ 例如，这不会产生您可能期望的行为：</p><pre class="language-bash" data-language="bash"><code class="language-bash">hexo new page <span class="token parameter variable">--path</span> about/me</code></pre><p>此时 Hexo 会创建 <code>source/_posts/about/me.md</code>，同时 <code>me.md</code> 的 Front Matter 中的 title 为 <code>&quot;page&quot;</code>。 这是因为在上述命令中，hexo-cli 将 <code>page</code> 视为指定文章的标题、并采用默认的 <code>layout</code>。</p><h2 id="generate"><a href="#generate" class="headerlink" title="generate"></a>generate</h2><pre class="language-bash" data-language="bash"><code class="language-bash">$ hexo generate</code></pre><p>生成静态文件。</p><table><thead><tr><th>选项</th><th>描述</th></tr></thead><tbody><tr><td><code>-d</code>, <code>--deploy</code></td><td>在生成完成后部署。</td></tr><tr><td><code>-w</code>, <code>--watch</code></td><td>监视文件变动</td></tr><tr><td><code>-b</code>, <code>--bail</code></td><td>生成过程中如果发生任何未处理的异常则抛出异常</td></tr><tr><td><code>-f</code>, <code>--force</code></td><td>强制重新生成</td></tr><tr><td><code>-c</code>, <code>--concurrency</code></td><td>要同时生成的文件的最大数量。 默认无限制</td></tr></tbody></table><h2 id="publish"><a href="#publish" class="headerlink" title="publish"></a>publish</h2><pre class="language-bash" data-language="bash"><code class="language-bash">$ hexo publish <span class="token punctuation">[</span>layout<span class="token punctuation">]</span> <span class="token operator">&lt;</span>filename<span class="token operator">></span></code></pre><p>发表草稿。</p><h2 id="server"><a href="#server" class="headerlink" title="server"></a>server</h2><pre class="language-bash" data-language="bash"><code class="language-bash">hexo server</code></pre><p>启动服务器。 默认情况下，访问网址为： <code>http://localhost:4000/</code>。</p><table><thead><tr><th>选项</th><th>描述</th></tr></thead><tbody><tr><td><code>-p</code>, <code>--port</code></td><td>重设端口</td></tr><tr><td><code>-s</code>, <code>--static</code></td><td>只使用静态文件</td></tr><tr><td><code>-l</code>, <code>--log</code></td><td>启用日志。 Override logger format.</td></tr></tbody></table><h2 id="deploy"><a href="#deploy" class="headerlink" title="deploy"></a>deploy</h2><pre class="language-bash" data-language="bash"><code class="language-bash">$ hexo deploy</code></pre><p>部署你的网站。</p><table><thead><tr><th>选项</th><th>描述</th></tr></thead><tbody><tr><td><code>-g</code>, <code>--generate</code></td><td>在部署前生成</td></tr></tbody></table><h2 id="render"><a href="#render" class="headerlink" title="render"></a>render</h2><pre class="language-bash" data-language="bash"><code class="language-bash">$ hexo render <span class="token operator">&lt;</span>file<span class="token operator"><span class="token file-descriptor important">1</span>></span> <span class="token punctuation">[</span>file2<span class="token punctuation">]</span> <span class="token punctuation">..</span>.</code></pre><p>渲染文件。</p><table><thead><tr><th>选项</th><th>描述</th></tr></thead><tbody><tr><td><code>-o</code>, <code>--output</code></td><td>输出目标地址</td></tr></tbody></table><h2 id="migrate"><a href="#migrate" class="headerlink" title="migrate"></a>migrate</h2><pre class="language-bash" data-language="bash"><code class="language-bash">$ hexo migrate <span class="token operator">&lt;</span>type<span class="token operator">></span></code></pre><p>从其他博客系统 <a href="https://hexo.io/zh-cn/docs/migration">迁移内容</a>。</p><h2 id="clean"><a href="#clean" class="headerlink" title="clean"></a>clean</h2><pre class="language-bash" data-language="bash"><code class="language-bash">$ hexo clean</code></pre><p>清除缓存文件 (<code>db.json</code>) 和已生成的静态文件 (<code>public</code>)。</p><h2 id="list"><a href="#list" class="headerlink" title="list"></a>list</h2><pre class="language-bash" data-language="bash"><code class="language-bash">$ hexo list <span class="token operator">&lt;</span>type<span class="token operator">></span></code></pre><p>列出所有路由。</p><h2 id="version"><a href="#version" class="headerlink" title="version"></a>version</h2><pre class="language-bash" data-language="bash"><code class="language-bash">$ hexo version</code></pre><p>显示版本信息。</p><h2 id="config"><a href="#config" class="headerlink" title="config"></a>config</h2><pre class="language-bash" data-language="bash"><code class="language-bash">$ hexo config <span class="token punctuation">[</span>key<span class="token punctuation">]</span> <span class="token punctuation">[</span>value<span class="token punctuation">]</span></code></pre><p>列出网站的配置（<code>_config.yml</code>）。 如果指定了 <code>key</code>，则只展示配置中对应 <code>key</code> 的值；如果同时指定了 <code>key</code> 和 <code>value</code>，则将配置中对应的 <code>key</code> 的值修改为 <code>value</code>。</p><h2 id="选项"><a href="#选项" class="headerlink" title="选项"></a>选项</h2><h3 id="安全模式"><a href="#安全模式" class="headerlink" title="安全模式"></a>安全模式</h3><pre class="language-bash" data-language="bash"><code class="language-bash">$ hexo <span class="token parameter variable">--safe</span></code></pre><p>在安全模式下，不会加载插件和脚本。 当您在安装新插件遭遇问题时，可以尝试以安全模式重新执行。</p><h3 id="调试模式"><a href="#调试模式" class="headerlink" title="调试模式"></a>调试模式</h3><pre class="language-bash" data-language="bash"><code class="language-bash">$ hexo <span class="token parameter variable">--debug</span></code></pre><p>在终端中显示调试信息并记录到 <code>debug.log</code>。 当您使用 Hexo 时遇到问题，可以尝试用调试模式重新执行一次。 如果您发现错误，请<a href="https://github.com/hexojs/hexo/issues/new?assignees=&labels=&projects=&template=bug_report.yml">在 GitHub 上提出 issue</a>。</p><h3 id="简洁模式"><a href="#简洁模式" class="headerlink" title="简洁模式"></a>简洁模式</h3><pre class="language-bash" data-language="bash"><code class="language-bash">$ hexo <span class="token parameter variable">--silent</span></code></pre><p>静默输出到终端.</p><h3 id="自定义配置文件的路径"><a href="#自定义配置文件的路径" class="headerlink" title="自定义配置文件的路径"></a>自定义配置文件的路径</h3><pre class="language-bash" data-language="bash"><code class="language-bash">$ hexo <span class="token parameter variable">--config</span> custom.yml</code></pre><p>自定义配置文件的路径，指定这个参数后将不再使用默认的 <code>_config.yml</code>。 还接受一个以逗号分隔的 JSON 或 YAML 配置文件列表（无空格），该列表将把这些文件合并为一个 <code>_multiconfig.yml</code> 文件。</p><pre class="language-bash" data-language="bash"><code class="language-bash">$ hexo <span class="token parameter variable">--config</span> custom.yml,custom2.json</code></pre><h3 id="显示草稿"><a href="#显示草稿" class="headerlink" title="显示草稿"></a>显示草稿</h3><pre class="language-bash" data-language="bash"><code class="language-bash">$ hexo <span class="token parameter variable">--draft</span></code></pre><p>显示 <code>source/_drafts</code> 文件夹中的草稿文章。</p><h3 id="自定义-CWD"><a href="#自定义-CWD" class="headerlink" title="自定义 CWD"></a>自定义 CWD</h3><pre class="language-bash" data-language="bash"><code class="language-bash">$ hexo <span class="token parameter variable">--cwd</span> /path/to/cwd</code></pre><p>自定义当前工作目录（Current working directory）的路径。</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>常用语法</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>常用语法</tag>
+      
+      <tag>hexo</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>前端</title>
     <link href="/posts/undefined.html"/>
     <url>/posts/undefined.html</url>
@@ -236,9 +290,9 @@
     
     <tags>
       
-      <tag>jupyter_notebook</tag>
-      
       <tag>常用语法</tag>
+      
+      <tag>jupyter_notebook</tag>
       
     </tags>
     
