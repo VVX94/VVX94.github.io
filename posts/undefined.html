@@ -684,18 +684,41 @@
 </ol>
 <hr>
 <p>二、示例分析</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs mysql">#  示例表结构<br>CREATE TABLE users (<br>    id INT PRIMARY KEY,<br>    country VARCHAR(50),<br>    city VARCHAR(50),<br>    age INT,<br>    INDEX idx_country_city_age (country, city, age)<br>);<br></code></pre></td></tr></table></figure>
+<pre class="language-mysql" data-language="mysql"><code class="language-mysql">#  示例表结构
+CREATE TABLE users (
+    id INT PRIMARY KEY,
+    country VARCHAR(50),
+    city VARCHAR(50),
+    age INT,
+    INDEX idx_country_city_age (country, city, age)
+);</code></pre>
 
 <ol>
 <li><p><strong>生效的查询场景</strong></p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-comment">-- ✅ 使用最左列 country</span><br><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> users <span class="hljs-keyword">WHERE</span> country <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;China&#x27;</span>;<br><br><span class="hljs-comment">-- ✅ 使用 country + city</span><br><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> users <span class="hljs-keyword">WHERE</span> country <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;China&#x27;</span> <span class="hljs-keyword">AND</span> city <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;Beijing&#x27;</span>;<br><br><span class="hljs-comment">-- ✅ 使用 country + city + age（全列匹配）</span><br><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> users <span class="hljs-keyword">WHERE</span> country <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;China&#x27;</span> <span class="hljs-keyword">AND</span> city <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;Beijing&#x27;</span> <span class="hljs-keyword">AND</span> age <span class="hljs-operator">&gt;</span> <span class="hljs-number">20</span>;<br></code></pre></td></tr></table></figure>
+<pre class="language-sql" data-language="sql"><code class="language-sql"><span class="token comment">-- ✅ 使用最左列 country</span>
+<span class="token keyword">SELECT</span> <span class="token operator">*</span> <span class="token keyword">FROM</span> users <span class="token keyword">WHERE</span> country <span class="token operator">=</span> <span class="token string">'China'</span><span class="token punctuation">;</span>
+
+<span class="token comment">-- ✅ 使用 country + city</span>
+<span class="token keyword">SELECT</span> <span class="token operator">*</span> <span class="token keyword">FROM</span> users <span class="token keyword">WHERE</span> country <span class="token operator">=</span> <span class="token string">'China'</span> <span class="token operator">AND</span> city <span class="token operator">=</span> <span class="token string">'Beijing'</span><span class="token punctuation">;</span>
+
+<span class="token comment">-- ✅ 使用 country + city + age（全列匹配）</span>
+<span class="token keyword">SELECT</span> <span class="token operator">*</span> <span class="token keyword">FROM</span> users <span class="token keyword">WHERE</span> country <span class="token operator">=</span> <span class="token string">'China'</span> <span class="token operator">AND</span> city <span class="token operator">=</span> <span class="token string">'Beijing'</span> <span class="token operator">AND</span> age <span class="token operator">></span> <span class="token number">20</span><span class="token punctuation">;</span></code></pre>
 </li>
 <li><p><strong>部分生效的场景</strong></p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-comment">-- ⚠️ 仅 country 生效，age 无法走索引（中间跳过了 city）</span><br><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> users <span class="hljs-keyword">WHERE</span> country <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;China&#x27;</span> <span class="hljs-keyword">AND</span> age <span class="hljs-operator">&gt;</span> <span class="hljs-number">20</span>;<br><br><span class="hljs-comment">-- ⚠️ 范围查询后，后续列无法走索引（city=&#x27;Beijing&#x27; 生效，但 age 不生效）</span><br><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> users <br><span class="hljs-keyword">WHERE</span> country <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;China&#x27;</span> <span class="hljs-keyword">AND</span> city <span class="hljs-operator">&gt;</span> <span class="hljs-string">&#x27;A&#x27;</span> <span class="hljs-keyword">AND</span> age <span class="hljs-operator">=</span> <span class="hljs-number">25</span>; <span class="hljs-comment">-- 仅 country + city 生效</span><br></code></pre></td></tr></table></figure></li>
+<pre class="language-sql" data-language="sql"><code class="language-sql"><span class="token comment">-- ⚠️ 仅 country 生效，age 无法走索引（中间跳过了 city）</span>
+<span class="token keyword">SELECT</span> <span class="token operator">*</span> <span class="token keyword">FROM</span> users <span class="token keyword">WHERE</span> country <span class="token operator">=</span> <span class="token string">'China'</span> <span class="token operator">AND</span> age <span class="token operator">></span> <span class="token number">20</span><span class="token punctuation">;</span>
+
+<span class="token comment">-- ⚠️ 范围查询后，后续列无法走索引（city='Beijing' 生效，但 age 不生效）</span>
+<span class="token keyword">SELECT</span> <span class="token operator">*</span> <span class="token keyword">FROM</span> users 
+<span class="token keyword">WHERE</span> country <span class="token operator">=</span> <span class="token string">'China'</span> <span class="token operator">AND</span> city <span class="token operator">></span> <span class="token string">'A'</span> <span class="token operator">AND</span> age <span class="token operator">=</span> <span class="token number">25</span><span class="token punctuation">;</span> <span class="token comment">-- 仅 country + city 生效</span></code></pre></li>
 <li><p><strong>不生效的场景</strong></p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-comment">-- ❌ 未使用最左列 country</span><br><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> users <span class="hljs-keyword">WHERE</span> city <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;Beijing&#x27;</span>;<br><br><span class="hljs-comment">-- ❌ 跳过了中间列 city</span><br><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> users <span class="hljs-keyword">WHERE</span> country <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;China&#x27;</span> <span class="hljs-keyword">AND</span> age <span class="hljs-operator">=</span> <span class="hljs-number">25</span>;<br></code></pre></td></tr></table></figure></li>
+<pre class="language-sql" data-language="sql"><code class="language-sql"><span class="token comment">-- ❌ 未使用最左列 country</span>
+<span class="token keyword">SELECT</span> <span class="token operator">*</span> <span class="token keyword">FROM</span> users <span class="token keyword">WHERE</span> city <span class="token operator">=</span> <span class="token string">'Beijing'</span><span class="token punctuation">;</span>
+
+<span class="token comment">-- ❌ 跳过了中间列 city</span>
+<span class="token keyword">SELECT</span> <span class="token operator">*</span> <span class="token keyword">FROM</span> users <span class="token keyword">WHERE</span> country <span class="token operator">=</span> <span class="token string">'China'</span> <span class="token operator">AND</span> age <span class="token operator">=</span> <span class="token number">25</span><span class="token punctuation">;</span></code></pre></li>
 <li><p><strong>如果遇到范围查询(&gt;、&lt;)，就会停止匹配</strong>。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs mysql">where a&gt;1, b=2, c=3;<br></code></pre></td></tr></table></figure></li>
+<pre class="language-mysql" data-language="mysql"><code class="language-mysql">where a&gt;1, b&#x3D;2, c&#x3D;3;</code></pre></li>
 </ol>
 <ul>
 <li><p>所谓的停止匹配指的是：a 可以用上联合索引，但是 b 和 c 却不行。因为 a 需要先经过范围查询，此时经过筛选得到 b 和 c 的数据是无序的。比如 a 为 1 和 a 为 2 数据之间 b 和 c 是无序的，因此无法利用索引查询。</p>
@@ -704,13 +727,13 @@
 </li>
 </ul>
 <p>例如：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs mysql">where a&gt;=1, b=2, c=3;<br></code></pre></td></tr></table></figure>
+<pre class="language-mysql" data-language="mysql"><code class="language-mysql">where a&gt;&#x3D;1, b&#x3D;2, c&#x3D;3;</code></pre>
 
 <ul>
 <li><p>查询可以定位到 a&#x3D;1 这条数据，然后往后遍历即可，而定<strong>位到的 a&#x3D;1 数据内，b 和 c 是有序的，因此可以利用索引查询</strong>。</p>
 </li>
 <li><p>而以下的查询则可以全部用上联合索引：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs mysql">where a=1, b=2, c&gt;3;<br></code></pre></td></tr></table></figure>
+<pre class="language-mysql" data-language="mysql"><code class="language-mysql">where a&#x3D;1, b&#x3D;2, c&gt;3;</code></pre>
 </li>
 <li><p>因为 a 和 b 是等值查询的情况下，c 是有序的，有序就可以用上索引。</p>
 </li>
@@ -723,28 +746,39 @@
 <ul>
 <li><strong>高频查询条件在前</strong>：将最常用的列放在索引左侧。</li>
 </ul>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-comment">-- 假设查询条件多为 country + city，而非单独 country</span><br>INDEX idx_country_city (country, city);<br></code></pre></td></tr></table></figure>
+<pre class="language-sql" data-language="sql"><code class="language-sql"><span class="token comment">-- 假设查询条件多为 country + city，而非单独 country</span>
+<span class="token keyword">INDEX</span> idx_country_city <span class="token punctuation">(</span>country<span class="token punctuation">,</span> city<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 <ul>
-<li><strong>区分度高的列在前</strong>：区分度高的列（唯一值多）能更快缩小查询范围。  <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-comment">-- country 有 100 个值，city 有 1000 个值 → 优先 city 在前？</span><br><span class="hljs-comment">-- 错误！必须结合查询条件频率，不能只看区分度。</span><br></code></pre></td></tr></table></figure></li>
+<li><strong>区分度高的列在前</strong>：区分度高的列（唯一值多）能更快缩小查询范围。  <pre class="language-sql" data-language="sql"><code class="language-sql"><span class="token comment">-- country 有 100 个值，city 有 1000 个值 → 优先 city 在前？</span>
+<span class="token comment">-- 错误！必须结合查询条件频率，不能只看区分度。</span></code></pre></li>
 </ul>
 <ol start="2">
 <li><strong>处理范围查询</strong></li>
 </ol>
 <ul>
-<li><strong>范围查询后的列无法走索引</strong>：  <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-comment">-- 索引: (country, city, age)</span><br><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> users <br><span class="hljs-keyword">WHERE</span> country <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;China&#x27;</span> <span class="hljs-keyword">AND</span> city <span class="hljs-operator">&gt;</span> <span class="hljs-string">&#x27;Beijing&#x27;</span> <span class="hljs-keyword">AND</span> age <span class="hljs-operator">=</span> <span class="hljs-number">25</span>;<br><span class="hljs-comment">-- 实际生效索引：country + city（age 无法利用索引）</span><br></code></pre></td></tr></table></figure></li>
-<li><strong>优化方案</strong>：将等值查询列放在范围查询列之前。<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-comment">-- 如果查询条件多为 country + age，且 age 是范围查询：</span><br><span class="hljs-comment">-- 需要重新设计索引，但受最左前缀限制，可能需要单独创建 (country, age) 索引。</span><br></code></pre></td></tr></table></figure></li>
+<li><strong>范围查询后的列无法走索引</strong>：  <pre class="language-sql" data-language="sql"><code class="language-sql"><span class="token comment">-- 索引: (country, city, age)</span>
+<span class="token keyword">SELECT</span> <span class="token operator">*</span> <span class="token keyword">FROM</span> users 
+<span class="token keyword">WHERE</span> country <span class="token operator">=</span> <span class="token string">'China'</span> <span class="token operator">AND</span> city <span class="token operator">></span> <span class="token string">'Beijing'</span> <span class="token operator">AND</span> age <span class="token operator">=</span> <span class="token number">25</span><span class="token punctuation">;</span>
+<span class="token comment">-- 实际生效索引：country + city（age 无法利用索引）</span></code></pre></li>
+<li><strong>优化方案</strong>：将等值查询列放在范围查询列之前。<pre class="language-sql" data-language="sql"><code class="language-sql"><span class="token comment">-- 如果查询条件多为 country + age，且 age 是范围查询：</span>
+<span class="token comment">-- 需要重新设计索引，但受最左前缀限制，可能需要单独创建 (country, age) 索引。</span></code></pre></li>
 </ul>
 <ol start="3">
 <li><strong>覆盖索引优化</strong></li>
 </ol>
 <ul>
-<li><strong>无需回表</strong>：若查询字段全部在索引中，即使跳过中间列，也可能触发覆盖索引。<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-comment">-- 索引: (country, city, age)</span><br><span class="hljs-keyword">SELECT</span> country, city, age <span class="hljs-keyword">FROM</span> users <br><span class="hljs-keyword">WHERE</span> country <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;China&#x27;</span> <span class="hljs-keyword">AND</span> age <span class="hljs-operator">=</span> <span class="hljs-number">25</span>; <span class="hljs-comment">-- ⚠️ 使用覆盖索引（Extra: Using index）</span><br></code></pre></td></tr></table></figure></li>
+<li><strong>无需回表</strong>：若查询字段全部在索引中，即使跳过中间列，也可能触发覆盖索引。<pre class="language-sql" data-language="sql"><code class="language-sql"><span class="token comment">-- 索引: (country, city, age)</span>
+<span class="token keyword">SELECT</span> country<span class="token punctuation">,</span> city<span class="token punctuation">,</span> age <span class="token keyword">FROM</span> users 
+<span class="token keyword">WHERE</span> country <span class="token operator">=</span> <span class="token string">'China'</span> <span class="token operator">AND</span> age <span class="token operator">=</span> <span class="token number">25</span><span class="token punctuation">;</span> <span class="token comment">-- ⚠️ 使用覆盖索引（Extra: Using index）</span></code></pre></li>
 </ul>
 <ol start="4">
 <li><strong>索引下推（Index Condition Pushdown, ICP）</strong></li>
 </ol>
 <ul>
-<li><strong>MySQL 5.6+ 特性</strong>：将 <code>WHERE</code> 条件中索引列的过滤下推到存储引擎层。  <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-comment">-- 索引: (country, city, age)</span><br><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> users <br><span class="hljs-keyword">WHERE</span> country <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;China&#x27;</span> <span class="hljs-keyword">AND</span> city <span class="hljs-keyword">LIKE</span> <span class="hljs-string">&#x27;B%&#x27;</span> <span class="hljs-keyword">AND</span> age <span class="hljs-operator">=</span> <span class="hljs-number">25</span>;<br><span class="hljs-comment">-- 即使 city 是模糊查询，ICP 会在引擎层过滤 age=25 的记录，减少回表次数。</span><br></code></pre></td></tr></table></figure></li>
+<li><strong>MySQL 5.6+ 特性</strong>：将 <code>WHERE</code> 条件中索引列的过滤下推到存储引擎层。  <pre class="language-sql" data-language="sql"><code class="language-sql"><span class="token comment">-- 索引: (country, city, age)</span>
+<span class="token keyword">SELECT</span> <span class="token operator">*</span> <span class="token keyword">FROM</span> users 
+<span class="token keyword">WHERE</span> country <span class="token operator">=</span> <span class="token string">'China'</span> <span class="token operator">AND</span> city <span class="token operator">LIKE</span> <span class="token string">'B%'</span> <span class="token operator">AND</span> age <span class="token operator">=</span> <span class="token number">25</span><span class="token punctuation">;</span>
+<span class="token comment">-- 即使 city 是模糊查询，ICP 会在引擎层过滤 age=25 的记录，减少回表次数。</span></code></pre></li>
 </ul>
 <h4 id="593-MySQL中的回表是什么"><a href="#593-MySQL中的回表是什么" class="headerlink" title="593.MySQL中的回表是什么"></a>593.MySQL中的回表是什么</h4><ul>
 <li>“回表” 是指在使用二级索引（非聚簇索引）作为条件进行查询时，由于二级索引中只存储了索引字段的值和对应的主键值，无法得到其它数据。如果要查询数据行中的其它数据，需要根据主键去聚簇索引查找实际的数据行，<strong>这个过程被称为回表</strong>。</li>
@@ -890,7 +924,7 @@
 <td></td>
 </tr>
 </tbody></table>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql">EXPLAIN <span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> <span class="hljs-keyword">user</span> <span class="hljs-keyword">WHERE</span> age <span class="hljs-operator">=</span> <span class="hljs-number">25</span>;<br></code></pre></td></tr></table></figure>
+<pre class="language-sql" data-language="sql"><code class="language-sql"><span class="token keyword">EXPLAIN</span> <span class="token keyword">SELECT</span> <span class="token operator">*</span> <span class="token keyword">FROM</span> <span class="token keyword">user</span> <span class="token keyword">WHERE</span> age <span class="token operator">=</span> <span class="token number">25</span><span class="token punctuation">;</span></code></pre>
 <p><strong>关键字段解析</strong>：</p>
 <ul>
 <li>**<code>type</code>**：访问类型，优先级从高到低：<br>  <code>const &gt; ref &gt; range &gt; index &gt; ALL</code>（<code>ALL</code> 表示全表扫描）。</li>
@@ -1184,6 +1218,12 @@
                 <div class="post-prevnext my-3">
                   <article class="post-prev col-6">
                     
+                    
+                      <a href="/posts/undefined.html" title="conda">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">conda</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
                     
                   </article>
                   <article class="post-next col-6">
