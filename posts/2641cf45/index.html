@@ -16,25 +16,25 @@
   <meta name="author" content="十众">
   <meta name="keywords" content="">
   
-    <meta name="description" content="MyBatis@TableLogic MyBatis-Plus 框架 中提供的一个注解，用于实现数据库的 ​逻辑删除 功能。它的核心作用是将数据标记为“已删除”状态（而不是物理删除数据），从而保留数据完整性和可追溯性。 @TableLogic 的用途: 通过该注解，​MyBatis-Plus 会自动实现以下逻辑： ​删除操作：将 DELETE 语句转换为 UPDATE，修改标记字段的值。 ​查询操">
+    <meta name="description" content="Jupyter Notebook 有两种键盘输入模式。  编辑模式，允许你往单元中键入代码或文本；这时的单元框线是绿色的。 命令模式，键盘输入运行程序命令；这时的单元框线是灰色。  命令模式 (按键 Esc 开启) Enter : 转入编辑模式 Shift-Enter : 运行本单元，选中下个单元 Ctrl-Enter : 运行本单元 Alt-Enter : 运行本单元，在其下插入新单元 Y :">
 <meta property="og:type" content="article">
-<meta property="og:title" content="SpringBoot注解">
-<meta property="og:url" content="https://vvx94.github.io/posts/2f294b8e.html">
+<meta property="og:title" content="jupyter notebook">
+<meta property="og:url" content="https://vvx94.github.io/posts/2641cf45/">
 <meta property="og:site_name" content="听风">
-<meta property="og:description" content="MyBatis@TableLogic MyBatis-Plus 框架 中提供的一个注解，用于实现数据库的 ​逻辑删除 功能。它的核心作用是将数据标记为“已删除”状态（而不是物理删除数据），从而保留数据完整性和可追溯性。 @TableLogic 的用途: 通过该注解，​MyBatis-Plus 会自动实现以下逻辑： ​删除操作：将 DELETE 语句转换为 UPDATE，修改标记字段的值。 ​查询操">
+<meta property="og:description" content="Jupyter Notebook 有两种键盘输入模式。  编辑模式，允许你往单元中键入代码或文本；这时的单元框线是绿色的。 命令模式，键盘输入运行程序命令；这时的单元框线是灰色。  命令模式 (按键 Esc 开启) Enter : 转入编辑模式 Shift-Enter : 运行本单元，选中下个单元 Ctrl-Enter : 运行本单元 Alt-Enter : 运行本单元，在其下插入新单元 Y :">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2025-03-27T10:26:05.000Z">
-<meta property="article:modified_time" content="2025-03-27T11:09:31.391Z">
+<meta property="article:published_time" content="2025-03-27T10:23:06.000Z">
+<meta property="article:modified_time" content="2025-03-27T11:09:31.415Z">
 <meta property="article:author" content="十众">
-<meta property="article:tag" content="项目开发杂记">
-<meta property="article:tag" content="注解">
+<meta property="article:tag" content="常用语法">
+<meta property="article:tag" content="jupyter_notebook">
 <meta name="twitter:card" content="summary_large_image">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>SpringBoot注解 - 听风</title>
+  <title>jupyter notebook - 听风</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -227,7 +227,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="SpringBoot注解"></span>
+            <span id="subtitle" data-typed-text="jupyter notebook"></span>
           
         </div>
 
@@ -238,7 +238,7 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2025-03-27 18:26" pubdate>
+        <time datetime="2025-03-27 18:23" pubdate>
           2025年3月27日 晚上
         </time>
       </span>
@@ -250,7 +250,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          646 字
+          973 字
         
       </span>
     
@@ -306,45 +306,87 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">SpringBoot注解</h1>
+            <h1 id="seo-header">jupyter notebook</h1>
             
             
               <div class="markdown-body">
                 
-                <h3 id="MyBatis"><a href="#MyBatis" class="headerlink" title="MyBatis"></a>MyBatis</h3><h4 id="TableLogic"><a href="#TableLogic" class="headerlink" title="@TableLogic"></a><code>@TableLogic</code></h4><ul>
-<li><strong>MyBatis-Plus 框架</strong> 中提供的一个注解，用于实现数据库的 ​<strong>逻辑删除</strong> 功能。它的核心作用是将数据标记为“已删除”状态（而不是物理删除数据），从而保留数据完整性和可追溯性。</li>
-<li><strong><code>@TableLogic</code> 的用途</strong>: 通过该注解，​<strong>MyBatis-Plus 会自动实现以下逻辑</strong>：<ol>
-<li>​<strong>删除操作</strong>：将 <code>DELETE</code> 语句转换为 <code>UPDATE</code>，修改标记字段的值。</li>
-<li>​<strong>查询操作</strong>：自动在查询条件中添加 <code>WHERE is_deleted = 0</code>，排除已删除数据。</li>
-<li>​<strong>数据恢复</strong>：通过更新标记字段的值，恢复被逻辑删除的数据。</li>
-</ol>
-</li>
-<li><em><strong>注意！！！</strong></em>：必须增加<code>@TableLogic</code>注解，MyBatis才能识别该变量用于判断<em>逻辑删除</em><br><strong>（1）基本用法</strong><br>在实体类中标记逻辑删除字段：</li>
-</ul>
-<pre class="language-java" data-language="java"><code class="language-java"><span class="token annotation punctuation">@TableName</span><span class="token punctuation">(</span><span class="token string">"user"</span><span class="token punctuation">)</span>
-<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">User</span> <span class="token punctuation">&#123;</span>
-    <span class="token annotation punctuation">@TableId</span>
-    <span class="token keyword">private</span> <span class="token class-name">Long</span> id<span class="token punctuation">;</span>
-    <span class="token keyword">private</span> <span class="token class-name">String</span> name<span class="token punctuation">;</span>
-    
-    <span class="token annotation punctuation">@TableLogic</span>
-    <span class="token keyword">private</span> <span class="token class-name">Integer</span> isDeleted<span class="token punctuation">;</span> <span class="token comment">// 逻辑删除标记字段</span>
-<span class="token punctuation">&#125;</span></code></pre>
-<p><strong>​（2）自定义删除标记值</strong></p>
+                <p>Jupyter Notebook 有两种键盘输入模式。</p>
 <ul>
-<li><p>默认值：</p>
-<ul>
-<li>​<strong>未删除</strong>：<code>0</code></li>
-<li>​<strong>已删除</strong>：<code>1</code></li>
+<li>编辑模式，允许你往单元中键入代码或文本；这时的单元框线是绿色的。</li>
+<li>命令模式，键盘输入运行程序命令；这时的单元框线是灰色。</li>
 </ul>
-</li>
-<li><p>通过注解属性自定义：</p>
-<pre class="language-java" data-language="java"><code class="language-java"><span class="token annotation punctuation">@TableLogic</span><span class="token punctuation">(</span>value <span class="token operator">=</span> <span class="token string">"0"</span><span class="token punctuation">,</span> delval <span class="token operator">=</span> <span class="token string">"1"</span><span class="token punctuation">)</span>  <span class="token comment">// 未删除=0，已删除=1</span>
-<span class="token keyword">private</span> <span class="token class-name">Integer</span> status<span class="token punctuation">;</span></code></pre>
-</li>
-<li><p>支持其他类型（如字符串）：</p>
-<pre class="language-java" data-language="java"><code class="language-java"><span class="token annotation punctuation">@TableLogic</span><span class="token punctuation">(</span>value <span class="token operator">=</span> <span class="token string">"NO"</span><span class="token punctuation">,</span> delval <span class="token operator">=</span> <span class="token string">"YES"</span><span class="token punctuation">)</span>  <span class="token comment">// 未删除="NO"，已删除="YES"</span>
-<span class="token keyword">private</span> <span class="token class-name">String</span> isDeleted<span class="token punctuation">;</span></code></pre></li>
+<h2 id="命令模式-按键-Esc-开启"><a href="#命令模式-按键-Esc-开启" class="headerlink" title="命令模式 (按键 Esc 开启)"></a>命令模式 (按键 Esc 开启)</h2><ul>
+<li><em>Enter : 转入编辑模式</em></li>
+<li><em>Shift-Enter : 运行本单元，选中下个单元</em></li>
+<li><em>Ctrl-Enter : 运行本单元</em></li>
+<li><em>Alt-Enter : 运行本单元，在其下插入新单元</em></li>
+<li><em>Y : 单元转入代码状态</em></li>
+<li><em>M :单元转入markdown状态</em></li>
+<li><em>R : 单元转入raw状态</em></li>
+<li>1 : 设定 1 级标题</li>
+<li>2 : 设定 2 级标题</li>
+<li>3 : 设定 3 级标题</li>
+<li>4 : 设定 4 级标题</li>
+<li>5 : 设定 5 级标题</li>
+<li>6 : 设定 6 级标题</li>
+<li>Up : 选中上方单元</li>
+<li><em>K : 选中上方单元</em></li>
+<li>Down : 选中下方单元</li>
+<li><em>J : 选中下方单元</em></li>
+<li>Shift-K : 扩大选中上方单元</li>
+<li>Shift-J : 扩大选中下方单元</li>
+<li><em>A : 在上方插入新单元</em></li>
+<li><em>B : 在下方插入新单元</em></li>
+<li><em>X : 剪切选中的单元</em></li>
+<li><em>C : 复制选中的单元</em></li>
+<li>Shift-V : 粘贴到上方单元</li>
+<li>V : 粘贴到下方单元</li>
+<li>Z : 恢复删除的最后一个单元</li>
+<li><em>D,D : 删除选中的单元</em></li>
+<li>Shift-M : 合并选中的单元</li>
+<li>Ctrl-S : 文件存盘</li>
+<li>S : 文件存盘</li>
+<li>L : 转换行号</li>
+<li>O : 转换输出</li>
+<li>Shift-O : 转换输出滚动</li>
+<li>Esc : 关闭页面</li>
+<li>Q : 关闭页面</li>
+<li>H : 显示快捷键帮助</li>
+<li><em>I,I : 中断Notebook内核</em></li>
+<li><em>0,0 : 重启Notebook内核</em></li>
+<li>Shift : 忽略</li>
+<li>Shift-Space : 向上滚动</li>
+<li>Space : 向下滚动</li>
+</ul>
+<h2 id="编辑模式-Enter-键启动"><a href="#编辑模式-Enter-键启动" class="headerlink" title="编辑模式 ( Enter 键启动)"></a>编辑模式 ( Enter 键启动)</h2><ul>
+<li>Tab : 代码补全或缩进</li>
+<li>Shift-Tab : 提示</li>
+<li>Ctrl-] : 缩进</li>
+<li>Ctrl-[ : 解除缩进</li>
+<li>Ctrl-A : 全选</li>
+<li>Ctrl-Z : 复原</li>
+<li>Ctrl-Shift-Z : 再做</li>
+<li>Ctrl-Y : 再做</li>
+<li>Ctrl-Home : 跳到单元开头</li>
+<li>Ctrl-Up : 跳到单元开头</li>
+<li>Ctrl-End : 跳到单元末尾</li>
+<li>Ctrl-Down : 跳到单元末尾</li>
+<li>Ctrl-Left : 跳到左边一个字首</li>
+<li>Ctrl-Right : 跳到右边一个字首</li>
+<li>Ctrl-Backspace : 删除前面一个字</li>
+<li>Ctrl-Delete : 删除后面一个字</li>
+<li>Esc : 进入命令模式</li>
+<li>Ctrl-M : 进入命令模式</li>
+<li><em>Shift-Enter : 运行本单元，选中下一单元</em></li>
+<li><em>Ctrl-Enter : 运行本单元</em></li>
+<li><em>Alt-Enter : 运行本单元，在下面插入一单元</em></li>
+<li>Ctrl-Shift– : 分割单元</li>
+<li>Ctrl-Shift-Subtract : 分割单元</li>
+<li>Ctrl-S : 文件存盘</li>
+<li>Shift : 忽略</li>
+<li>Up : 光标上移或转入上一单元</li>
+<li>Down :光标下移或转入下一单元</li>
 </ul>
 
                 
@@ -364,7 +406,7 @@
     
       <span class="category-chain">
         
-  <a href="/categories/%E9%A1%B9%E7%9B%AE%E5%BC%80%E5%8F%91%E6%9D%82%E8%AE%B0/" class="category-chain-item">项目开发杂记</a>
+  <a href="/categories/%E5%B8%B8%E7%94%A8%E8%AF%AD%E6%B3%95/" class="category-chain-item">常用语法</a>
   
   
 
@@ -379,9 +421,9 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/%E9%A1%B9%E7%9B%AE%E5%BC%80%E5%8F%91%E6%9D%82%E8%AE%B0/" class="print-no-link">#项目开发杂记</a>
+        <a href="/tags/%E5%B8%B8%E7%94%A8%E8%AF%AD%E6%B3%95/" class="print-no-link">#常用语法</a>
       
-        <a href="/tags/%E6%B3%A8%E8%A7%A3/" class="print-no-link">#注解</a>
+        <a href="/tags/jupyter-notebook/" class="print-no-link">#jupyter_notebook</a>
       
     </div>
   
@@ -393,8 +435,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>SpringBoot注解</div>
-      <div>https://vvx94.github.io/posts/2f294b8e.html</div>
+      <div>jupyter notebook</div>
+      <div>https://vvx94.github.io/posts/2641cf45/</div>
     </div>
     <div class="license-meta">
       
@@ -438,9 +480,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/posts/f3b98ae9.html" title="前端">
+                      <a href="/posts/9211474f/" title="linux">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">前端</span>
+                        <span class="hidden-mobile">linux</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -448,8 +490,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/posts/56877132.html" title="开发工具类（减少造轮子）">
-                        <span class="hidden-mobile">开发工具类（减少造轮子）</span>
+                      <a href="/posts/7f1ae6d2/" title="java">
+                        <span class="hidden-mobile">java</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

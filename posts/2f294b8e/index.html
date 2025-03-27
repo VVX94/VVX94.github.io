@@ -16,25 +16,25 @@
   <meta name="author" content="十众">
   <meta name="keywords" content="">
   
-    <meta name="description" content="常用插件Mybatis MyBatisX : 目前使用体验最好的SQL操作插件">
+    <meta name="description" content="MyBatis@TableLogic MyBatis-Plus 框架 中提供的一个注解，用于实现数据库的 ​逻辑删除 功能。它的核心作用是将数据标记为“已删除”状态（而不是物理删除数据），从而保留数据完整性和可追溯性。 @TableLogic 的用途: 通过该注解，​MyBatis-Plus 会自动实现以下逻辑： ​删除操作：将 DELETE 语句转换为 UPDATE，修改标记字段的值。 ​查询操">
 <meta property="og:type" content="article">
-<meta property="og:title" content="IDEA">
-<meta property="og:url" content="https://vvx94.github.io/posts/3c1e27f1.html">
+<meta property="og:title" content="SpringBoot注解">
+<meta property="og:url" content="https://vvx94.github.io/posts/2f294b8e/">
 <meta property="og:site_name" content="听风">
-<meta property="og:description" content="常用插件Mybatis MyBatisX : 目前使用体验最好的SQL操作插件">
+<meta property="og:description" content="MyBatis@TableLogic MyBatis-Plus 框架 中提供的一个注解，用于实现数据库的 ​逻辑删除 功能。它的核心作用是将数据标记为“已删除”状态（而不是物理删除数据），从而保留数据完整性和可追溯性。 @TableLogic 的用途: 通过该注解，​MyBatis-Plus 会自动实现以下逻辑： ​删除操作：将 DELETE 语句转换为 UPDATE，修改标记字段的值。 ​查询操">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2025-03-27T10:24:51.000Z">
-<meta property="article:modified_time" content="2025-03-27T11:09:31.395Z">
+<meta property="article:published_time" content="2025-03-27T10:26:05.000Z">
+<meta property="article:modified_time" content="2025-03-27T11:09:31.391Z">
 <meta property="article:author" content="十众">
-<meta property="article:tag" content="环境配置">
-<meta property="article:tag" content="JetBrain全家桶">
+<meta property="article:tag" content="项目开发杂记">
+<meta property="article:tag" content="注解">
 <meta name="twitter:card" content="summary_large_image">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>IDEA - 听风</title>
+  <title>SpringBoot注解 - 听风</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -227,7 +227,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="IDEA"></span>
+            <span id="subtitle" data-typed-text="SpringBoot注解"></span>
           
         </div>
 
@@ -238,7 +238,7 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2025-03-27 18:24" pubdate>
+        <time datetime="2025-03-27 18:26" pubdate>
           2025年3月27日 晚上
         </time>
       </span>
@@ -250,7 +250,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          36 字
+          729 字
         
       </span>
     
@@ -306,13 +306,35 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">IDEA</h1>
+            <h1 id="seo-header">SpringBoot注解</h1>
             
             
               <div class="markdown-body">
                 
-                <h2 id="常用插件"><a href="#常用插件" class="headerlink" title="常用插件"></a>常用插件</h2><h3 id="Mybatis"><a href="#Mybatis" class="headerlink" title="Mybatis"></a>Mybatis</h3><ul>
-<li>MyBatisX : 目前使用体验最好的SQL操作插件</li>
+                <h3 id="MyBatis"><a href="#MyBatis" class="headerlink" title="MyBatis"></a>MyBatis</h3><h4 id="TableLogic"><a href="#TableLogic" class="headerlink" title="@TableLogic"></a><code>@TableLogic</code></h4><ul>
+<li><strong>MyBatis-Plus 框架</strong> 中提供的一个注解，用于实现数据库的 ​<strong>逻辑删除</strong> 功能。它的核心作用是将数据标记为“已删除”状态（而不是物理删除数据），从而保留数据完整性和可追溯性。</li>
+<li><strong><code>@TableLogic</code> 的用途</strong>: 通过该注解，​<strong>MyBatis-Plus 会自动实现以下逻辑</strong>：<ol>
+<li>​<strong>删除操作</strong>：将 <code>DELETE</code> 语句转换为 <code>UPDATE</code>，修改标记字段的值。</li>
+<li>​<strong>查询操作</strong>：自动在查询条件中添加 <code>WHERE is_deleted = 0</code>，排除已删除数据。</li>
+<li>​<strong>数据恢复</strong>：通过更新标记字段的值，恢复被逻辑删除的数据。</li>
+</ol>
+</li>
+<li><em><strong>注意！！！</strong></em>：必须增加<code>@TableLogic</code>注解，MyBatis才能识别该变量用于判断<em>逻辑删除</em><br><strong>（1）基本用法</strong><br>在实体类中标记逻辑删除字段：</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@TableName(&quot;user&quot;)</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">User</span> &#123;<br>    <span class="hljs-meta">@TableId</span><br>    <span class="hljs-keyword">private</span> Long id;<br>    <span class="hljs-keyword">private</span> String name;<br>    <br>    <span class="hljs-meta">@TableLogic</span><br>    <span class="hljs-keyword">private</span> Integer isDeleted; <span class="hljs-comment">// 逻辑删除标记字段</span><br>&#125;<br></code></pre></td></tr></table></figure>
+<p><strong>​（2）自定义删除标记值</strong></p>
+<ul>
+<li><p>默认值：</p>
+<ul>
+<li>​<strong>未删除</strong>：<code>0</code></li>
+<li>​<strong>已删除</strong>：<code>1</code></li>
+</ul>
+</li>
+<li><p>通过注解属性自定义：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@TableLogic(value = &quot;0&quot;, delval = &quot;1&quot;)</span>  <span class="hljs-comment">// 未删除=0，已删除=1</span><br><span class="hljs-keyword">private</span> Integer status;<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>支持其他类型（如字符串）：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@TableLogic(value = &quot;NO&quot;, delval = &quot;YES&quot;)</span>  <span class="hljs-comment">// 未删除=&quot;NO&quot;，已删除=&quot;YES&quot;</span><br><span class="hljs-keyword">private</span> String isDeleted;<br></code></pre></td></tr></table></figure></li>
 </ul>
 
                 
@@ -332,7 +354,7 @@
     
       <span class="category-chain">
         
-  <a href="/categories/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" class="category-chain-item">环境配置</a>
+  <a href="/categories/%E9%A1%B9%E7%9B%AE%E5%BC%80%E5%8F%91%E6%9D%82%E8%AE%B0/" class="category-chain-item">项目开发杂记</a>
   
   
 
@@ -347,9 +369,9 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" class="print-no-link">#环境配置</a>
+        <a href="/tags/%E9%A1%B9%E7%9B%AE%E5%BC%80%E5%8F%91%E6%9D%82%E8%AE%B0/" class="print-no-link">#项目开发杂记</a>
       
-        <a href="/tags/JetBrain%E5%85%A8%E5%AE%B6%E6%A1%B6/" class="print-no-link">#JetBrain全家桶</a>
+        <a href="/tags/%E6%B3%A8%E8%A7%A3/" class="print-no-link">#注解</a>
       
     </div>
   
@@ -361,8 +383,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>IDEA</div>
-      <div>https://vvx94.github.io/posts/3c1e27f1.html</div>
+      <div>SpringBoot注解</div>
+      <div>https://vvx94.github.io/posts/2f294b8e/</div>
     </div>
     <div class="license-meta">
       
@@ -406,9 +428,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/posts/2641cf45.html" title="jupyter notebook">
+                      <a href="/posts/f3b98ae9/" title="前端">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">jupyter notebook</span>
+                        <span class="hidden-mobile">前端</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -416,8 +438,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/posts/518e617c.html" title="git">
-                        <span class="hidden-mobile">git</span>
+                      <a href="/posts/56877132/" title="开发工具类（减少造轮子）">
+                        <span class="hidden-mobile">开发工具类（减少造轮子）</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
